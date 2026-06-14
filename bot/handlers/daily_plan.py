@@ -141,7 +141,7 @@ async def cb_plan_list(cb: CallbackQuery, user: User, session: AsyncSession):
 # ─────────────────────────────────────────────
 
 @router.callback_query(F.data == "plan_clear")
-async def cb_plan_clear(cb: CallbackQuery, user: User):
+async def cb_plan_clear(cb: CallbackQuery, user: User | None = None):
     lang = user.language
     kb = build_confirm_kb(lang, "plan_clear_confirm", "menu_daily_plan")
     await cb.message.answer(t("clear_confirm", lang), reply_markup=kb)

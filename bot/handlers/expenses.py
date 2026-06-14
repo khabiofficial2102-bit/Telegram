@@ -258,7 +258,7 @@ async def msg_exp_convert(
 # ─────────────────────────────────────────────
 
 @router.callback_query(F.data == "exp_clear")
-async def cb_exp_clear(cb: CallbackQuery, user: User):
+async def cb_exp_clear(cb: CallbackQuery, user: User | None = None):
     lang = user.language
     kb = build_confirm_kb(lang, confirm_cb="exp_clear_confirm", cancel_cb="menu_expenses")
     await cb.message.answer(t("clear_confirm", lang), reply_markup=kb)

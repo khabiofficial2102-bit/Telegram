@@ -73,7 +73,7 @@ async def cmd_reminders(message: Message, user: User, state: FSMContext):
 # ─────────────────────────────────────────────
 
 @router.message(ReminderStates.adding_text, F.text)
-async def msg_reminder_text(message: Message, state: FSMContext, user: User):
+async def msg_reminder_text(message: Message, state: FSMContext, user: User | None = None):
     lang = user.language
     dt, text = parse_datetime_text(message.text.strip())
 
@@ -175,7 +175,7 @@ async def cb_rem_list(cb: CallbackQuery, user: User, session: AsyncSession):
 # ─────────────────────────────────────────────
 
 @router.callback_query(F.data == "rem_clear")
-async def cb_rem_clear(cb: CallbackQuery, user: User):
+async def cb_rem_clear(cb: CallbackQuery, user: User | None = None):
     lang = user.language
     kb = build_confirm_kb(lang, "rem_clear_confirm", "menu_reminders")
     await cb.message.answer(t("clear_confirm", lang), reply_markup=kb)

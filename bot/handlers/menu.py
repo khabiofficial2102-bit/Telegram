@@ -95,7 +95,7 @@ SECTION_COMMANDS = {
 
 
 @router.callback_query(F.data.startswith("menu_"))
-async def cb_menu_dispatch(cb: CallbackQuery, user: User):
+async def cb_menu_dispatch(cb: CallbackQuery, user: User | None = None):
     """Fallback: echo which section was tapped (real handlers registered elsewhere)."""
     section = cb.data.removeprefix("menu_")
     if section not in SECTION_COMMANDS:

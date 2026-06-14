@@ -79,11 +79,11 @@ def _offer_keyboard(lang: str) -> InlineKeyboardMarkup:
 async def cmd_start(
     message: Message,
     state: FSMContext,
-    user: User,
     session: AsyncSession,
     bot: Bot,
-    lang: str,
-    is_new_user: bool,
+    user: User | None = None,
+    lang: str = "uz",
+    is_new_user: bool = False,
 ):
     await state.clear()
 
@@ -169,7 +169,7 @@ async def _show_offer(
     message: Message,
     state: FSMContext,
     session: AsyncSession,
-    lang: str,
+    lang: str = "uz",
 ):
     offer_text = await _get_db_text(session, "offer", lang) or t("offer_text", lang)
     kb = _offer_keyboard(lang)
@@ -268,7 +268,7 @@ async def _finish_start(
     state: FSMContext,
     user: User,
     session: AsyncSession,
-    lang: str,
+    lang: str = "uz",
 ):
     """Send welcome + show menu button."""
     await state.clear()
@@ -304,5 +304,5 @@ async def cmd_offer(
 # ─────────────────────────────────────────────
 
 @router.message(Command("help"))
-async def cmd_help(message: Message, user: User):
+async def cmd_help(message: Message, user: User | None = None):
     await message.answer(t("help_text", user.language), parse_mode="HTML")
